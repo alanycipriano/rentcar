@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rentcar</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="font/bootstrap-icons.css">
+    <script>
+        function formataMoeda(valor){
+            valor = parseFloat(valor);
+            return valor.toLocaleString('pt-AO',{
+                minimumFractionDigits:2,
+                style:'currency',
+                currency:'AKZ'
+            });
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg sticky-top">
+        <div class="container">
+            <a href="" class="navbar-brand">LOGO</a>
+
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a href="" class="nav-link btn btn-dark">
+                            Início
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link btn btn-dark">
+                            Carros
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link btn btn-dark">
+                            Clientes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link btn btn-dark">
+                            Outros
+                        </a>
+                    </li>
+                </ul>
+                <div class="d-flex ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="btn btn-dark nav-link text-light" data-bs-toggle="dropdown" aria-expanded="false">
+                            Carrinho
+                            <i class="bi bi-cart "></i>
+                            <span class="badge rounded-pill bg-secondary" id="carrinho-total-items">0</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end p-2"  style="min-width: 900px;;" id="dropdown">
+                            <div id="dropdown-menu">
+                                <div class="row" id="dropdown-header">
+                                    <div class="col-lg-3  fw-bold">
+                                        Nome
+                                    </div>
+                                    <div class="col-lg-3  fw-bold">
+                                        Imagem
+                                    </div>
+                                    <div class="col-lg-2  fw-bold">
+                                        Preço unitário
+                                    </div>
+                                    <div class="col-lg-2  fw-bold">
+                                        Dias
+                                    </div>
+                                    <div class="col-lg-2  fw-bold">
+                                        Preço Total
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-warning d-grid w-100">
+                                    <i class="bi bi-cash" style="font-style: normal;">  Concluir</i>
+                                </button>
+        
+                            </div>
+                        </ul>
+    
+                    </li>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+    <h1 class="my-2 text-center">
+        Seja bem vindo a Rentacar
+    </h1>
+    <section class="container">
+        <h3>Viaturas em aluguel</h3>
+        <div class="row">
+            <div class="card shadow-lg col-4 hover">
+                <a href="">
+                    <img src="img/img-1.png" alt="" id="carro-img-1" class="mt-5 mx-auto d-block">
+                </a>
+                <div class="card-body">
+                    <h3 class="card-title text-center" id="carro-nome-1">
+                        Mitsubish Nucequê
+                    </h3>
+                    <p class="card-text text-center">
+                        <span class=" ">Preço:</span>
+                         <span class="text-primary" id="carro-preco-1"> 
+                            <script> document.write( formataMoeda(190000))</script> 
+                        </span> 
+                        <span class="text-muted">/ dia</span>
+                        <a href="" class="nav-link text-primary">Saber mais</a>
+                    </p>
+                    <button class="btn  btn-success w-100 my-2 add-carrinho" id="carro-add-carrinho-1">
+                        <i class="bi bi-cart-plus" style="font-style: normal;"> Reservar</i>
+                    </button>
+                </div>
+            </div>
+            <div class="card col-4 offset-1">
+                <img src="img/img-2.png" alt="" id="carro-img-2" class="my-2">
+                <div class="card-body">
+                    <h3 class="card-title" id="carro-nome-2">
+                        Carro 2
+                    </h3>
+                    <p class="card-text">
+                        Um carro super pontente pronto para você. <br>
+                        Preço: <span class="text-primary display-6" id="carro-preco-2"> <script> document.write(formataMoeda(200000))</script> </span> / dia
+                        <a href="" class="nav-link text-primary">Saber mais</a>
+                    </p>
+                </div>
+                <button class="btn  btn-success d-grid my-2 add-carrinho" id="carro-add-carrinho-2">
+                    <i class="bi bi-cart-plus " style="font-style: normal;"> Reservar</i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/bootstrap.bundle.js"></script>
+    <script>
+        var buttonsAddCarrinho =document.querySelectorAll('button');
+        var idsCarrosCarrinho = [];
+        if(buttonsAddCarrinho){
+            buttonsAddCarrinho.forEach(function(button){
+                button.addEventListener('click',function(){
+                    const dropdownMenu = document.getElementById('dropdown-menu');
+                    var carroId = button.id.substring(19);                 
+                    var carroIdIniciais = button.id.substring(0,9);
+                    if("carro-add" == carroIdIniciais){
+                        if(document.getElementById('div-total')){
+                            document.getElementById('div-total').remove();
+                        }
+                       
+                        var carroNome = document.getElementById("carro-nome-"+carroId).innerText;
+                        var carroImg = document.getElementById("carro-img-"+carroId).src;
+                        var carroPreco = document.getElementById("carro-preco-"+carroId).innerText;
+                        carroPreco = carroPreco.replace(/[^0-9,]/g,'');
+                        const row = document.createElement('div');
+                        row.classList.add('row');
+
+                        const colNome = document.createElement('div');
+                        colNome.classList.add('col-3');
+                        colNome.innerText = carroNome;
+                        
+                        const colImg = document.createElement('div');
+                        colImg.classList.add('col-3');
+                        const img = document.createElement('img');
+                        img.setAttribute('src',carroImg);
+                        img.style.width = "80px";
+                        colImg.appendChild(img);
+                        console.log('carro preço:',carroPreco)
+                        const colPreco = document.createElement('div');
+                        colPreco.classList.add('col-preco');
+                        colPreco.classList.add('col-2');
+                        colPreco.setAttribute('id','preco-'+carroId);
+                        colPreco.innerText = formataMoeda(carroPreco);
+                        
+                        const numDias = document.createElement('div');
+                        numDias.classList.add('col-2');
+                        const input = document.createElement('input');
+                        input.classList.add('form-control');
+                        input.value= 1;
+                        input.setAttribute('type','number');
+                        input.setAttribute('id','input-'+carroId);
+                        numDias.appendChild(input);
+                        
+                        const precoTotal = document.createElement('div');
+                        precoTotal.classList.add('col-preco-total');
+                        precoTotal.classList.add('col-2');
+                        precoTotal.setAttribute('id','preco-total-'+carroId);
+
+                        precoTotal.innerText = formataMoeda(carroPreco);
+
+                        row.appendChild(colNome);
+                        row.appendChild(colImg);
+                        row.appendChild(colPreco);
+                        row.appendChild(numDias);
+                        row.appendChild(precoTotal);
+                        
+                        const divDivider = document.createElement('div');
+                        divDivider.classList.add('border');
+                        divDivider.classList.add('my-2');
+                        var precosLista = document.getElementsByClassName('col-preco');
+                        var total = parseFloat(carroPreco);
+                        for (let div of precosLista){
+                            let aux = div.innerHTML.replace(/[^0-9,]/g,'');
+                            aux = aux.replace(',','.');
+                            total += parseFloat(aux);
+                        }
+                    
+                        const divTotal = document.createElement('div');
+                        divTotal.setAttribute('id','div-total');
+                        divTotal.innerHTML = "<p class='text-end me-2'>Total: <strong>"+formataMoeda(total)+"</strong></p>"
+
+                        dropdownMenu.appendChild(row);
+                        dropdownMenu.appendChild(divDivider);
+                        dropdownMenu.appendChild(divTotal);
+                        incrementaItensCarrinho();
+                        idsCarrosCarrinho.push(carroId);
+                        button.setAttribute('disabled','true');
+                        calcularTotal();
+                        input.addEventListener('input',function(){
+                            if(this.value <1){
+                                this.value = 1;
+                            }
+                            let carroId = this.id.substring(6);
+                            let preco = document.getElementById('preco-'+carroId).innerHTML;
+                            preco = preco.replace(/[^0-9,]/g,'');
+                            preco = preco.replace(',','.');
+                            console.log('preço parcial:', preco);
+                            let qtd = this.value;
+                            let resultado = parseFloat(preco)*parseInt(qtd);
+                            document.getElementById('preco-total-'+carroId).innerText = formataMoeda(resultado);
+                            console.log('preço total:', resultado);
+                            calcularTotal();
+                           
+                        })
+                    }
+
+                });
+            });
+        }
+        function incrementaItensCarrinho(){
+            var countCarrinho = document.getElementById('carrinho-total-items');
+            if(countCarrinho){
+                var numActual = parseInt(countCarrinho.innerText);
+                countCarrinho.innerText =numActual +1; 
+            }
+        }
+        function calcularTotal(){
+            if(document.getElementById('div-total')){
+                var precosLista = document.getElementsByClassName('col-preco-total');
+                var total = 0;
+                for (let div of precosLista){
+                    let aux = div.innerHTML.replace(/[^0-9,]/g,'');
+                    aux = aux.replace(',','.');
+                    total += parseFloat(aux);
+                }
+                document.getElementById('div-total').innerHTML = "<p class='text-end me-2'>Total: <strong>"+formataMoeda(total)+"</strong></p>";
+            }
+        }
+        
+
+    </script>
+</body>
+</html>
